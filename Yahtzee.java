@@ -5,58 +5,72 @@ import java.util.Scanner;
 public class Yahtzee {
 
 	public static void main(String[] args) {
-		System.out.println("Welkom bij yahtzee, druk op d om te starten");
-		YahtzeeSpel nieuwSpel = new YahtzeeSpel();
-		nieuwSpel.Spelen();
-		
-	}
-
-}// end class Yahtzee
-
-class YahtzeeSpel{
-	Scanner scanner = new Scanner(System.in);
-	boolean doorgaan = true;
-	ArrayList<Integer> dobbelstenen = new ArrayList<Integer>(); 
-	
-	public YahtzeeSpel() {
-		dobbelstenen.add(YahtzeeSpel.Werpen());
-		dobbelstenen.add(YahtzeeSpel.Werpen());
-		dobbelstenen.add(YahtzeeSpel.Werpen());
-		dobbelstenen.add(YahtzeeSpel.Werpen());
-		dobbelstenen.add(YahtzeeSpel.Werpen());
-		dobbelstenen.add(YahtzeeSpel.Werpen());
-	}
-	//onderstaande method om het spel te starten. wordt aangeroepen in main.
-	void Spelen() {
-		while(doorgaan) {
-			String ingave = scanner.nextLine();
-			switch(ingave) {
-				case "d": 
-					
-					for(int i : dobbelstenen) {
-						//YahtzeeSpel.Werpen(); werkt niet
-						System.out.println(i);
-					}
-					break;
-				case "q": 
-					System.out.println("Het spel stopt. boe");
-					doorgaan = false;
-					break;
-			}
+		Player speler1 = new Player();
+		boolean spelen = true;
+		while(spelen) {
+			System.out.println("Welkom bij Yahtzee. Start het spel en gooi de dobbelstenen(s). U kunt ten alle tijden stoppen met het spel (q)");
+			speler1.spelkeuzes();
 		}
-	}//end method Starten
+	}
+
+
+}
+
+class Player{
+	String name = "";
+	Scanner scanner = new Scanner(System.in);
+	Dobbelstenen dobbelstenen = new Dobbelstenen(); 
+
 	
-	// onderstaande is om een random getal tussen 1 en 6 te werpen. deze wordt gereturned.
-	static int Werpen() {
-		Random random = new Random();
-		return random.nextInt(6)+1;
-	}//end method Werpen
+	void werpen() {
+		dobbelstenen.dobbelstenenVullen();
+	}//end werpen method
 	
-}//end class YahtzeeSpel
+	void spelkeuzes() {
+		boolean spelen = true;
+		while(spelen) {
+			String invoer = scanner.nextLine();
+			switch (invoer) {
+			case "s": 
+				System.out.println("Uw dobbelstenen zijn: ");
+				werpen();
+				break;
+			case "t":
+				for(int i = 0; i < 5; i++) {
+					
+				}
+			case "q":
+				System.out.println("U stopt het spel");
+				return;
+
+			}//end switch
+		}//end while loop 
+	}//end spelkeuzes method
+}//end player class
+
+class Dobbelstenen{
+	ArrayList<Dobbelsteen> worp = new ArrayList<Dobbelsteen>();
+	
+	void dobbelstenenVullen() {
+		for(int i = 0; i < 5; i++) {
+			Dobbelsteen dobbelsteen = new Dobbelsteen();
+			worp.add(dobbelsteen);
+			System.out.print(dobbelsteen.face);
+		}//end for loop
+		System.out.println("");
+
+	}//end method dobbelstenenVullen
+}//end class Dobbelbakje
 
 class Dobbelsteen{
+	Random random = new Random();	
+	int face = random.nextInt(6)+1;
 
-	void Dobbelstenen() {
-		
+}//end class Dobbelsteen
+
+class Tafel{
+	ArrayList<Dobbelsteen> tafel = new ArrayList();
+	void stenenOpTafel(){
+		//tafel.add(dobbelsteen);
 	}
-}// end class Dobbelsteen
+}
