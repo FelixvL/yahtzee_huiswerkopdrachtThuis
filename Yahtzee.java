@@ -5,72 +5,85 @@ import java.util.Scanner;
 public class Yahtzee {
 
 	public static void main(String[] args) {
-		Player speler1 = new Player();
-		boolean spelen = true;
-		while(spelen) {
+		//Player speler1 = new Player();
+
+
 			System.out.println("Welkom bij Yahtzee. Start het spel en gooi de dobbelstenen(s). U kunt ten alle tijden stoppen met het spel (q)");
-			speler1.spelkeuzes();
-		}
+			YahtzeeSpel yahtzee = new YahtzeeSpel();
+			yahtzee.spelen();
 	}
-
-
 }
 
-class Player{
-	String name = "";
-	Scanner scanner = new Scanner(System.in);
-	Dobbelstenen dobbelstenen = new Dobbelstenen(); 
 
+class YahtzeeSpel {
+	Scanner scanner = new Scanner(System.in);
+	ArrayList<Dobbelsteen> dobbelstenen = new ArrayList();
+	Dobbelsteen dobbelsteen = new Dobbelsteen();
+	boolean[] blokkeerArray = {false, false, false, false, false};
+	ArrayList<Dobbelsteen> tafel = new ArrayList();
 	
-	void werpen() {
-		dobbelstenen.dobbelstenenVullen();
-	}//end werpen method
+	YahtzeeSpel(){
+		for(int i = 0; i<5; i++) {
+			dobbelstenen.add(dobbelsteen);
+		}
+	}
 	
-	void spelkeuzes() {
+	void vasthouden() {
+		System.out.println("welke stenen wilt u houden?");
+		String input = scanner.nextLine();
+		//String vastgehoudenStenen = "";
+
+		if (input.equals("0")){
+			System.out.println("Geen enkele dobbelsteen is goed genoeg voor je?");
+		} else{
+			for (int i = 0; i < input.length(); i++){
+				int convertedInput = Integer.parseInt(input.substring(i, i+1)) - 1; //input komt binnen als String, maar moet eerst een integer worden
+				dobbelstenen[convertedInput] = dobbelsteen.vasthouden = true;
+			}
+		}
+	}
+	
+	void spelen() {
 		boolean spelen = true;
 		while(spelen) {
 			String invoer = scanner.nextLine();
 			switch (invoer) {
 			case "s": 
-				System.out.println("Uw dobbelstenen zijn: ");
-				werpen();
+				for(Dobbelsteen worp : dobbelstenen) {
+					dobbelsteen.werpen();
+					System.out.print(dobbelsteen.ogen);
+					}
+				break;
+			case "g":
+				for(int i=0; i<dobbelstenen.size(); i++) {
+				    if(blokkeerArray[i]){
+				        tafel.add(dobbelstenen.remove(i));
+				        System.out.println(dobbelsteen.ogen);
+				    }
+				}
+					for(Dobbelsteen worp : dobbelstenen) {
+						dobbelsteen.werpen();
+						System.out.print(dobbelsteen.ogen);
+						}
 				break;
 			case "t":
-				for(int i = 0; i < 5; i++) {
-					
-				}
+				vasthouden();
+				break;
 			case "q":
 				System.out.println("U stopt het spel");
 				return;
-
 			}//end switch
 		}//end while loop 
-	}//end spelkeuzes method
-}//end player class
-
-class Dobbelstenen{
-	ArrayList<Dobbelsteen> worp = new ArrayList<Dobbelsteen>();
-	
-	void dobbelstenenVullen() {
-		for(int i = 0; i < 5; i++) {
-			Dobbelsteen dobbelsteen = new Dobbelsteen();
-			worp.add(dobbelsteen);
-			System.out.print(dobbelsteen.face);
-		}//end for loop
-		System.out.println("");
-
-	}//end method dobbelstenenVullen
-}//end class Dobbelbakje
+	}
+}
 
 class Dobbelsteen{
-	Random random = new Random();	
-	int face = random.nextInt(6)+1;
-
-}//end class Dobbelsteen
-
-class Tafel{
-	ArrayList<Dobbelsteen> tafel = new ArrayList();
-	void stenenOpTafel(){
-		//tafel.add(dobbelsteen);
+	int ogen;
+	boolean vasthouden;
+	void werpen() {
+		if(vasthouden = true) {
+			Random random = new Random();
+			ogen = random.nextInt(6)+1;
+		}
 	}
 }
