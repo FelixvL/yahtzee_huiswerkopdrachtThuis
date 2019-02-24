@@ -17,13 +17,13 @@ public class Yahtzee {
 
 class YahtzeeSpel {
 	Scanner scanner = new Scanner(System.in);
-	ArrayList<Dobbelsteen> dobbelstenen = new ArrayList();
-	Dobbelsteen dobbelsteen = new Dobbelsteen();
-	boolean[] blokkeerArray = {false, false, false, false, false};
-	ArrayList<Dobbelsteen> tafel = new ArrayList();
+	ArrayList<Dobbelsteen> dobbelstenen = new ArrayList<Dobbelsteen>();
+	
+	boolean[] blockArray = {false, false, false, false, false};
 	
 	YahtzeeSpel(){
 		for(int i = 0; i<5; i++) {
+			Dobbelsteen dobbelsteen = new Dobbelsteen();
 			dobbelstenen.add(dobbelsteen);
 		}
 	}
@@ -35,10 +35,13 @@ class YahtzeeSpel {
 
 		if (input.equals("0")){
 			System.out.println("Geen enkele dobbelsteen is goed genoeg voor je?");
-		} else{
+		} 
+		else{
 			for (int i = 0; i < input.length(); i++){
-				int convertedInput = Integer.parseInt(input.substring(i, i+1)) - 1; //input komt binnen als String, maar moet eerst een integer worden
-				dobbelstenen[convertedInput] = dobbelsteen.vasthouden = true;
+				int convertedInput = Integer.parseInt(input.substring(i, i+1))- 1 ; //input komt binnen als String, maar moet eerst een integer worden
+				//System.out.println(convertedInput);
+				dobbelstenen.get(convertedInput).vasthouden = true;
+				System.out.println(dobbelstenen.get(convertedInput).ogen);
 			}
 		}
 	}
@@ -49,25 +52,14 @@ class YahtzeeSpel {
 			String invoer = scanner.nextLine();
 			switch (invoer) {
 			case "s": 
-				for(Dobbelsteen worp : dobbelstenen) {
+				for(Dobbelsteen dobbelsteen : dobbelstenen) {
 					dobbelsteen.werpen();
 					System.out.print(dobbelsteen.ogen);
 					}
 				break;
-			case "g":
-				for(int i=0; i<dobbelstenen.size(); i++) {
-				    if(blokkeerArray[i]){
-				        tafel.add(dobbelstenen.remove(i));
-				        System.out.println(dobbelsteen.ogen);
-				    }
-				}
-					for(Dobbelsteen worp : dobbelstenen) {
-						dobbelsteen.werpen();
-						System.out.print(dobbelsteen.ogen);
-						}
-				break;
-			case "t":
+			case "t"://vasthouden testen
 				vasthouden();
+				System.out.println("gooien");
 				break;
 			case "q":
 				System.out.println("U stopt het spel");
@@ -79,11 +71,12 @@ class YahtzeeSpel {
 
 class Dobbelsteen{
 	int ogen;
-	boolean vasthouden;
+	boolean vasthouden = false;
 	void werpen() {
-		if(vasthouden = true) {
+		if(vasthouden == false) {
 			Random random = new Random();
 			ogen = random.nextInt(6)+1;
+			//System.out.print(ogen);
 		}
 	}
 }
